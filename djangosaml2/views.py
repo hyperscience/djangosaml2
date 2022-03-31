@@ -28,6 +28,7 @@ from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.utils.html import conditional_escape
 from django.utils.http import urlquote
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -136,7 +137,7 @@ class LoginView(SPConfigMixin, View):
         elif 'RelayState' in request.GET:
             next_path = request.GET['RelayState']
 
-        next_path = validate_referral_url(request, next_path)
+        next_path = conditional_escape(validate_referral_url(request, next_path))
         return next_path
 
     def unknown_idp(self, request, idp):
